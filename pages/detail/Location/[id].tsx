@@ -15,12 +15,6 @@ export default function LocationDetail() {
     }
   }, [id]);
 
-  useEffect(() => {
-    if (list) {
-      console.log(list);
-    }
-  }, [list]);
-
   return (
     <>
       <div className="w-[100%] pt-[7vh] md:pt-0 md:h-[100vh] flex flex-col justify-center items-center">
