@@ -7,7 +7,7 @@ export default function Prev() {
   const { getData } = useData();
 
   useEffect(() => {
-    getData("data", "10", "19").then((res) => setData([...res, ...res]));
+    getData("10", "19").then((res) => setData([...res, ...res]));
   }, []);
 
   return (

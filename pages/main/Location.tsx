@@ -9,10 +9,10 @@ interface ListType {
 
 export default function Location() {
   const [list, setList] = useState<ListType[]>([]);
-  const { getData } = useData();
+  const { getLocation } = useData();
 
   useEffect(() => {
-    getData("location", "", "").then((res) => setList(res));
+    getLocation().then((res) => setList(res));
   }, []);
 
   return (

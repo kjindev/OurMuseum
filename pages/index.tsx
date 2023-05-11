@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main />
-      <footer className="h-[10vh] bg-black text-white"></footer>
+      <footer className="h-[10vh] text-center">footer</footer>
     </div>
   );
 }

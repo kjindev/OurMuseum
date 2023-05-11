@@ -5,9 +5,14 @@ import Prev from "./main/Prev";
 import Location from "./main/Location";
 import NavBar from "./main/NavBar";
 
+interface Props {
+  handleScrollView: (event: React.MouseEvent<HTMLElement>) => void;
+  navName: string;
+}
+
 export default function Main() {
   const scrollRef = useRef<null[] | HTMLDivElement[]>([]);
-  const [name, setName] = useState("");
+  const [navName, setNavName] = useState("intro");
 
   useEffect(() => {
     if (scrollRef) {
@@ -16,7 +21,7 @@ export default function Main() {
         ([event]) => {
           const target = event.target as HTMLElement;
           if (event.isIntersecting) {
-            setName(target.id);
+            setNavName(target.id);
           }
         },
         { threshold: 0.5 }
@@ -32,7 +37,7 @@ export default function Main() {
         ([event]) => {
           const target = event.target as HTMLElement;
           if (event.isIntersecting) {
-            setName(target.id);
+            setNavName(target.id);
           }
         },
         { threshold: 0.5 }
@@ -48,7 +53,7 @@ export default function Main() {
         ([event]) => {
           const target = event.target as HTMLElement;
           if (event.isIntersecting) {
-            setName(target.id);
+            setNavName(target.id);
           }
         },
         { threshold: 0.5 }
@@ -64,7 +69,7 @@ export default function Main() {
         ([event]) => {
           const target = event.target as HTMLElement;
           if (event.isIntersecting) {
-            setName(target.id);
+            setNavName(target.id);
           }
         },
         { threshold: 0.5 }
@@ -94,7 +99,7 @@ export default function Main() {
 
   return (
     <div>
-      <NavBar handleScrollView={handleScrollView} />
+      <NavBar handleScrollView={handleScrollView} navName={navName} />
       <div ref={(el) => (scrollRef.current[0] = el)} id="intro">
         <Intro />
       </div>

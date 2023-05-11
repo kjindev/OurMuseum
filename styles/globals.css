@@ -17,12 +17,25 @@ body {
 }
 
 ::selection {
-  background: #fed7aa;
-  color: #000000;
+  background: #000000;
+  color: #ffffff;
 }
 
 .text-stroke {
   -webkit-text-stroke: 1px black;
+}
+
+.menu-moving {
+  animation: menumoving 0.3s linear forwards;
+}
+
+@keyframes menumoving {
+  0% {
+    transform: translate(100%, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 .image-box {

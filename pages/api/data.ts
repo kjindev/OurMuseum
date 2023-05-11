@@ -7,8 +7,8 @@ interface Data {
 
 const handler = async (req: any, res: NextApiResponse<Data>) => {
   if (req.method === "GET") {
-    const { start, end } = req.query;
     const getAPI = async (request: Request) => {
+      const { start, end } = req.query;
       const { API_KEY } = process.env;
       const API_URL = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/ListExhibitionOfSeoulMOAInfo/${start}/${end}/`;
       let response;
@@ -23,8 +23,6 @@ const handler = async (req: any, res: NextApiResponse<Data>) => {
     await getAPI(req).then((response) => {
       res.json(response?.data);
     });
-  } else if (req.method === "POST") {
-    console.log("post");
   }
 };
 

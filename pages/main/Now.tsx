@@ -1,22 +1,68 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BsChevronLeft, BsChevronRight, BsGeoAlt } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import useData from "../hooks/useData";
 
+interface DataType {
+  DP_MAIN_IMG: string;
+  DP_NAME: string;
+  DP_PLACE: string;
+  DP_INFO: string;
+  DP_END: string;
+  DP_LNK: string;
+  DP_ARTIST: string;
+}
+
 export default function Now() {
-  const [data, setData] = useState<any[]>([]);
-  const [slideIndex, setSlideIndex] = useState(0);
+  const [data, setData] = useState<DataType[]>([]);
+  const [dataList, setDataList] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [slideIndex, setSlideIndex] = useState<number>(0);
   const [prevButtomVisible, setPrevButtonVisible] = useState(true);
   const [nextButtomVisible, setNextButtonVisible] = useState(true);
   const { getData } = useData();
+  const router = useRouter();
 
   useEffect(() => {
-    getData("data", "1", "5").then((res) => setData(res));
+    getData("1", "5")
+      .then((res) => setData(res))
+      .then(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!loading && dataList.length === 0) {
+      let list = [];
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      const str = /[<pdir="ltr">ns<br><strong></p>&lt;&gt;]/gi;
+      const dataCopy = data.map((item) => item);
+      for (let i = 0; i < data.length; i++) {
+        if (dataCopy[i].DP_END >= `${year}-${month}-${day}`) {
+          dataCopy[i].DP_INFO = dataCopy[i].DP_INFO.replace(str, "");
+          list.push(dataCopy[i]);
+        }
+      }
+      setDataList(list);
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (slideIndex === 0) {
+      setPrevButtonVisible(false);
+    } else if (slideIndex === dataList.length - 1) {
+      setNextButtonVisible(false);
+    } else {
+      setPrevButtonVisible(true);
+      setNextButtonVisible(true);
+    }
+  }, [slideIndex]);
 
   return (
     <div className="pt-[10vh] pb-10 flex flex-col justify-center items-center w-[100%] md:h-[100vh]">
-      {data.length === 0 ? (
+      {dataList.length === 0 ? (
         <div className="flex items-center justify-center w-[70%] h-[30vh] md:w-[80%] md:h-[30vh] lg:w-[840px] lg:h-[60vh] xl:w-[1020px]">
           <div>Loading...</div>
         </div>
@@ -27,16 +73,14 @@ export default function Now() {
             | 클릭하여 자세한 내용을 확인해보세요
           </div>
           <div style={{ width: `${500}%` }} className="mt-1 lg:mt-7 flex">
-            {data?.map((item, index) => (
+            {dataList?.map((item, index) => (
               <div
                 key={index}
                 className="w-[100%] flex flex-col lg:flex-row items-center justify-center drop-shadow-lg"
-                style={
-                  {
-                    //transform: `translateX(-${slideIndex * 100}%)`,
-                    //transitionDuration: "1.1s",
-                  }
-                }
+                style={{
+                  transform: `translateX(-${slideIndex * 100}%)`,
+                  transitionDuration: "1.1s",
+                }}
               >
                 <img
                   src={item.DP_MAIN_IMG}
@@ -51,14 +95,32 @@ export default function Now() {
                       <div>{item.DP_PLACE}</div>
                     </div>
                     <div className="md:hidden mt-2 md:mt-5 text-xs text-justify sm:text-sm">
-                      {`${item.DP_INFO.substr(0, 350)} ...`}
+                      {`${item.DP_INFO.slice(0, 350)} ...`}
                     </div>
-                    <div className="mt-2 maxmd:hidden md:mt-5 text-xs text-justify sm:text-sm">
-                      {`${item.DP_INFO.substr(0, 420)} ...`}
+                    <div className="maxmd:hidden mt-2 md:mt-5 text-xs text-justify sm:text-sm">
+                      {`${item.DP_INFO.slice(0, 400)} ...`}
                     </div>
                   </div>
-                  <div className="flex items-center justify-center mt-2 py-2 w-[100%] text-center text-xs sm:text-sm hover:cursor-pointer hover:text-yellow-600">
-                    <Link href={`/detail/Now/${index}`}>자세히 알아보기</Link>
+                  <div
+                    className="flex items-center justify-center mt-2 py-2 w-[100%] text-center text-xs sm:text-sm hover:cursor-pointer hover:text-yellow-600"
+                    onClick={() => {
+                      router.push(
+                        {
+                          pathname: `/detail/Now/${index}`,
+                          query: {
+                            DP_NAME: item.DP_NAME,
+                            DP_ARTIST: item.DP_ARTIST,
+                            DP_MAIN_IMG: item.DP_MAIN_IMG,
+                            DP_PLACE: item.DP_PLACE,
+                            DP_INFO: item.DP_INFO,
+                            DP_LNK: item.DP_LNK,
+                          },
+                        },
+                        `/detail/Now/${index}`
+                      );
+                    }}
+                  >
+                    자세히 알아보기
                   </div>
                 </div>
               </div>
@@ -72,10 +134,11 @@ export default function Now() {
           className={
             prevButtomVisible ? "hover:cursor-pointer ml-10" : "invisible ml-10"
           }
+          onClick={() => setSlideIndex(slideIndex - 1)}
         />
-        {data && (
+        {dataList && (
           <div className="px-[10vw]">{`${slideIndex + 1} / ${
-            data.length
+            dataList.length
           }`}</div>
         )}
         <BsChevronRight
@@ -83,6 +146,7 @@ export default function Now() {
           className={
             nextButtomVisible ? "hover:cursor-pointer mr-10" : "invisible mr-10"
           }
+          onClick={() => setSlideIndex(slideIndex + 1)}
         />
       </div>
     </div>
