@@ -3,7 +3,7 @@ import Intro from "./main/Intro";
 import Now from "./main/Now";
 import Prev from "./main/Prev";
 import Location from "./main/Location";
-import NavBar from "./main/NavBar";
+import NavBar from "./components/NavBar";
 
 interface Props {
   handleScrollView: (event: React.MouseEvent<HTMLElement>) => void;

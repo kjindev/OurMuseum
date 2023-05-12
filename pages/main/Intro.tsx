@@ -1,6 +1,6 @@
 import { BsChatRightQuoteFill } from "react-icons/bs";
 
-function Intro() {
+export default function Intro() {
   return (
     <div className="h-[100vh] flex flex-col justify-center items-center">
       <div className="flex flex-col sm:flex-row items-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
@@ -18,5 +18,3 @@ function Intro() {
     </div>
   );
 }
-
-export default Intro;

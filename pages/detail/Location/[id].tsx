@@ -18,10 +18,8 @@ export default function LocationDetail() {
   return (
     <>
       <div className="w-[100%] pt-[7vh] md:pt-0 md:h-[100vh] flex flex-col justify-center items-center">
-        <div className="px-3 w-[100%] md:w-[84%] flex justify-between items-center">
-          <div className="text-lg mr-2 sm:text-xl md:text-xl lg:text-3xl">
-            {list?.NAME}
-          </div>
+        <div className="text-lg sm:text-xl md:text-xl lg:text-3xl">
+          {list?.NAME}
         </div>
         <div className="w-[100%] mt-3 flex flex-col justify-center items-center md:flex-row drop-shadow-lg">
           <img

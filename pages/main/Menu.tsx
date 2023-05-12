@@ -11,7 +11,7 @@ export default function Menu() {
   return (
     <div
       ref={menuRef}
-      className="menu-moving fixed z-[2] ml-[20%] w-[80%] h-[100vh] bg-black px-3 py-1 md:hidden"
+      className="menu-moving fixed z-[2] ml-[20%] w-[80%] h-[100vh] bg-black px-3 py-1 hidden"
     >
       <div className="pt-[7vh] flex flex-col">
         <div className="mx-5 mb-7 text-xs text-white border border-white p-5">

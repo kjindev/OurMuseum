@@ -1,13 +1,14 @@
 import Link from "next/link";
-import Menu from "./Menu";
+import Menu from "../main/Menu";
 import { BsList } from "react-icons/bs";
-
+import { useAuth } from "./AuthContext";
 interface Props {
   handleScrollView: (event: React.MouseEvent<HTMLElement>) => void;
   navName: string;
 }
 
 export default function NavBar({ handleScrollView, navName }: Props) {
+  const { user, logout } = useAuth();
   const style = "ml-5 py-1 cursor-pointer text-sm maxmd:hidden";
   const styleObserve =
     "ml-5 py-1 cursor-pointer text-yellow-600 text-sm maxmd:hidden";
@@ -30,11 +31,19 @@ export default function NavBar({ handleScrollView, navName }: Props) {
           <span className={navName === "location" ? styleObserve : style}>
             방문하기
           </span>
-          <Link href={"/LogIn"}>
-            <span className="hover:cursor-pointer text-sm ml-5">로그인</span>
-          </Link>
+          {!user ? (
+            <Link href={"/LogIn"}>
+              <span className="hover:cursor-pointer text-sm ml-5">로그인</span>
+            </Link>
+          ) : (
+            <span
+              onClick={logout}
+              className="hover:cursor-pointer text-sm ml-5"
+            >
+              로그아웃
+            </span>
+          )}
         </div>
-
         <div onClick={handleScrollView} className="md:hidden">
           <BsList />
         </div>

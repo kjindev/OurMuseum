@@ -12,6 +12,7 @@ interface DataType {
   DP_END: string;
   DP_LNK: string;
   DP_ARTIST: string;
+  DP_SEQ: string;
 }
 
 export default function Now() {
@@ -114,6 +115,8 @@ export default function Now() {
                             DP_PLACE: item.DP_PLACE,
                             DP_INFO: item.DP_INFO,
                             DP_LNK: item.DP_LNK,
+                            DP_END: item.DP_END,
+                            DP_SEQ: item.DP_SEQ,
                           },
                         },
                         `/detail/Now/${index}`
