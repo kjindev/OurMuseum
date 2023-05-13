@@ -7,6 +7,7 @@ import { collection, where, getDocs, query } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { BsBookmarkPlus, BsFillBookmarkCheckFill } from "react-icons/bs";
 import { BiX } from "react-icons/bi";
+import axios from "axios";
 
 interface APIType {
   DP_NAME: string;
@@ -54,36 +55,19 @@ export default function PrevDetail() {
     INFO: "",
   });
 
-  if (isSearching) {
-    useQuery(
-      ["items", page, searchText],
-      async () =>
-        (
-          await fetch(`/api/search?page=${page}&searchText=${searchText}`)
-        ).json(),
-      {
-        onSuccess: (resposne) => {
-          setItemList(resposne);
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      }
-    );
-  } else {
-    useQuery(
-      ["items", page],
-      async () => (await fetch(`/api/items?page=${page}`)).json(),
-      {
-        onSuccess: (resposne) => {
-          setItemList(resposne);
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      }
-    );
-  }
+  const queryKey = isSearching ? ["items", page, searchText] : ["items", page];
+  const fetchURL = isSearching
+    ? `/api/search?page=${page}&searchText=${searchText}`
+    : `/api/items?page=${page}`;
+
+  useQuery(queryKey, () => axios.get(fetchURL), {
+    onSuccess: (response) => {
+      setItemList(response.data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   useEffect(() => {
     if (itemList) {
