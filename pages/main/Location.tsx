@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import useData from "../hooks/useData";
 
@@ -29,7 +30,13 @@ export default function Location() {
           >
             <Link href={`detail/Location/${index}`}>
               <div className="w-[100%] h-[100%] p-1 md:p-2 bg-white drop-shadow-lg hover:scale-105 duration-100">
-                <img src={item.img} className="w-[100%] h-[85%] object-cover" />
+                <Image
+                  src={item.img}
+                  alt="img"
+                  width={500}
+                  height={500}
+                  className="w-[100%] h-[85%] object-cover"
+                />
                 <div className="w-[100%] text-center text-xs sm:text-sm lg:text-base">
                   {item.name}
                 </div>

@@ -11,7 +11,11 @@ export function AuthContextProvider({ children }: any) {
   useEffect(() => {
     const authState = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser({ email: user.email, photo: user.photoURL });
+        setUser({
+          email: user.email,
+          name: user.displayName,
+          photo: user.photoURL,
+        });
       } else {
         setUser(null);
       }

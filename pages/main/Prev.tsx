@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useData from "../hooks/useData";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Prev() {
   const [data, setData] = useState<any[]>([]);
@@ -21,9 +22,11 @@ export default function Prev() {
           <div className="flex w-[1500%] md:w-[400%] h-[100%] image-box">
             {data.map((item, index) => (
               <div key={index} className="w-[100%] md:w-[50%]">
-                <img
-                  loading="lazy"
+                <Image
                   src={item.DP_MAIN_IMG}
+                  alt="img"
+                  width={500}
+                  height={500}
                   className="w-[100%] h-[100%] object-cover"
                 />
               </div>

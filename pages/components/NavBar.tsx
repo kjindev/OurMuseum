@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Menu from "../main/Menu";
-import { BsList } from "react-icons/bs";
+import { useState, useRef } from "react";
+import { BsList, BsX } from "react-icons/bs";
 import { useAuth } from "./AuthContext";
 interface Props {
   handleScrollView: (event: React.MouseEvent<HTMLElement>) => void;
@@ -9,14 +10,43 @@ interface Props {
 
 export default function NavBar({ handleScrollView, navName }: Props) {
   const { user, logout } = useAuth();
+  const menuRef = useRef<HTMLDivElement>(null);
   const style = "ml-5 py-1 cursor-pointer text-sm maxmd:hidden";
   const styleObserve =
     "ml-5 py-1 cursor-pointer text-yellow-600 text-sm maxmd:hidden";
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const showMenu = () => {
+    setMenuVisible(true);
+    menuRef.current?.classList.remove("hidden");
+    menuRef.current?.classList.add("flex");
+  };
+
+  const hideMenu = () => {
+    setMenuVisible(false);
+    menuRef.current?.classList.add("hidden");
+    menuRef.current?.classList.remove("flex");
+  };
 
   return (
-    <>
-      <Menu />
-      <div className="fixed z-[2] w-[100%] flex justify-between items-center px-5 py-2 bg-white drop-shadow">
+    <div className="z-20 w-[100vw] fixed">
+      {menuVisible && (
+        <div className="md:hidden z-50 absolute right-0 p-2 px-3">
+          <BsX
+            onClick={hideMenu}
+            size={30}
+            color="white"
+            className="hover:cursor-pointer"
+          />
+        </div>
+      )}
+      <div ref={menuRef} className="hidden fixed z-30 w-[100%] h-[100vh]">
+        <div onClick={hideMenu} className="w-[20%]"></div>
+        <div className="menu-moving w-[80%] h-[100%]  bg-black   px-3 py-1">
+          <Menu handleScrollView={handleScrollView} navName={navName} />
+        </div>
+      </div>
+      <div className="w-[100%] flex fixed justify-between items-center px-4 py-2 drop-shadow  bg-white">
         <div>OurMuseum</div>
         <div onClick={handleScrollView} className="maxmd:hidden">
           <span className={navName === "intro" ? styleObserve : style}>
@@ -36,18 +66,23 @@ export default function NavBar({ handleScrollView, navName }: Props) {
               <span className="hover:cursor-pointer text-sm ml-5">로그인</span>
             </Link>
           ) : (
-            <span
-              onClick={logout}
-              className="hover:cursor-pointer text-sm ml-5"
-            >
-              로그아웃
-            </span>
+            <>
+              <Link href={"/UserPage"}>
+                <span className="hover:cursor-pointer text-sm ml-5">
+                  마이페이지
+                </span>
+              </Link>
+              <span
+                onClick={logout}
+                className="hover:cursor-pointer text-sm ml-5"
+              >
+                로그아웃
+              </span>
+            </>
           )}
         </div>
-        <div onClick={handleScrollView} className="md:hidden">
-          <BsList />
-        </div>
+        <BsList onClick={showMenu} size={27} className="hover:cursor-pointer" />
       </div>
-    </>
+    </div>
   );
 }

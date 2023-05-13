@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
@@ -26,7 +26,7 @@ export default function Now() {
   const router = useRouter();
 
   useEffect(() => {
-    getData("1", "5")
+    getData("3", "10")
       .then((res) => setData(res))
       .then(() => setLoading(false));
   }, []);
@@ -73,7 +73,10 @@ export default function Now() {
           <div className="mt-0 md:mt-2 text-center text-sm md:text-base">
             | 클릭하여 자세한 내용을 확인해보세요
           </div>
-          <div style={{ width: `${500}%` }} className="mt-1 lg:mt-7 flex">
+          <div
+            style={{ width: `${dataList.length * 100}%` }}
+            className="mt-1 lg:mt-7 flex"
+          >
             {dataList?.map((item, index) => (
               <div
                 key={index}
@@ -83,8 +86,11 @@ export default function Now() {
                   transitionDuration: "1.1s",
                 }}
               >
-                <img
+                <Image
                   src={item.DP_MAIN_IMG}
+                  alt="img"
+                  width={700}
+                  height={700}
                   className="w-[80vw] h-[30vh] lg:w-[420px] lg:h-[60vh] xl:w-[510px] object-cover"
                 />
                 <div className="w-[80vw] lg:w-[420px] lg:h-[60vh] xl:w-[510px] p-3 bg-white">
