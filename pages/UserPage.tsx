@@ -42,7 +42,7 @@ export default function UserPage() {
     event.preventDefault();
     setNameEditing(false);
     const auth = getAuth();
-    updateProfile(auth.currentUser, {
+    updateProfile(auth.currentUser as any, {
       displayName: userNameChanged,
     }).then(() =>
       dispatch({
@@ -69,7 +69,7 @@ export default function UserPage() {
       };
       await uploadBytes(storageRef, image, metadata);
       await getDownloadURL(storageRef).then((url) => {
-        updateProfile(auth.currentUser, {
+        updateProfile(auth.currentUser as any, {
           photoURL: url,
         }).then(() =>
           dispatch({
