@@ -2,15 +2,31 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { auth } from "../config/firebase";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
+interface State {
+  email: string | null;
+  name: string | null;
+  photo: string | null;
+}
+
+interface Action {
+  type: "Update";
+  payload: {
+    email: string | null;
+    name: string | null;
+    photo: string | null;
+  };
+}
+
 const AuthContext = createContext<any>({});
 export const useAuth = () => useContext(AuthContext);
 
-const initialState = {
+const initialState: State = {
   email: null,
   name: null,
   photo: null,
 };
-const reducer = (user: any, action: any) => {
+
+const reducer = (user: State, action: Action): State => {
   if (action.type === "Update") {
     return {
       email: action.payload.email,
@@ -18,9 +34,14 @@ const reducer = (user: any, action: any) => {
       photo: action.payload.photo,
     };
   }
+  return user;
 };
 
-export function AuthContextProvider({ children }: any) {
+export function AuthContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [user, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {

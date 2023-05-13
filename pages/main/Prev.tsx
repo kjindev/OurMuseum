@@ -3,8 +3,12 @@ import useData from "../hooks/useData";
 import Link from "next/link";
 import Image from "next/image";
 
+interface ListType {
+  DP_MAIN_IMG: string;
+}
+
 export default function Prev() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<ListType[]>([]);
   const { getData } = useData();
 
   useEffect(() => {

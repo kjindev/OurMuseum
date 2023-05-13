@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import useItems from "../hooks/useItems";
-
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
 import { useAuth } from "../components/AuthContext";
+import useDatabase from "../hooks/useDatabase";
 import { collection, where, getDocs, query } from "firebase/firestore";
 import { db } from "../config/firebase";
-import useDatabase from "../hooks/useDatabase";
 import { BsBookmarkPlus, BsFillBookmarkCheckFill } from "react-icons/bs";
 import { BiX } from "react-icons/bi";
 
@@ -23,21 +22,26 @@ interface APIType {
   DP_LNK: string;
 }
 
+interface ListType {
+  totalPages: number;
+  currentPage: number;
+  items: [];
+}
+
 export default function PrevDetail() {
-  const { getItems, searchItems } = useItems();
   const { addDatabase, deleteDatabase } = useDatabase();
+  const { user } = useAuth();
 
   const modalRef = useRef<HTMLDivElement>(null);
   const dataRef = useRef<HTMLDivElement>(null);
 
   const [page, setPage] = useState(1);
-  const [itemList, setItemList] = useState<any>();
+  const [itemList, setItemList] = useState<ListType>();
   const [pageList, setPageList] = useState<number[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [bookmark, setBookmark] = useState<any>(false);
+  const [bookmark, setBookmark] = useState(false);
 
   const [isSearching, setIsSearching] = useState(false);
-
   const [modalText, setModalText] = useState({
     NAME: "",
     ARTIST: "",
@@ -49,23 +53,37 @@ export default function PrevDetail() {
     ID: "",
     INFO: "",
   });
-  const [submitCheck, setSubmitCheck] = useState(true);
 
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (isSearching) {
-      searchItems(page, searchText).then((res) => setItemList(res));
-    } else if (!isSearching) {
-      getItems(page).then((res) => setItemList(res));
-    }
-  }, [page]);
-
-  useEffect(() => {
-    if (isSearching) {
-      searchItems(page, searchText).then((res) => setItemList(res));
-    }
-  }, [submitCheck]);
+  if (isSearching) {
+    useQuery(
+      ["items", page, searchText],
+      async () =>
+        (
+          await fetch(`/api/search?page=${page}&searchText=${searchText}`)
+        ).json(),
+      {
+        onSuccess: (resposne) => {
+          setItemList(resposne);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  } else {
+    useQuery(
+      ["items", page],
+      async () => (await fetch(`/api/items?page=${page}`)).json(),
+      {
+        onSuccess: (resposne) => {
+          setItemList(resposne);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
+  }
 
   useEffect(() => {
     if (itemList) {
@@ -79,13 +97,12 @@ export default function PrevDetail() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (searchText === "") {
-      setPage(1);
-      setIsSearching(false);
-    }
     setPage(1);
-    setIsSearching(true);
-    setSubmitCheck(!submitCheck);
+    if (searchText === "") {
+      setIsSearching(false);
+    } else {
+      setIsSearching(true);
+    }
   };
 
   const handleModal = async (event: React.MouseEvent<HTMLElement>) => {

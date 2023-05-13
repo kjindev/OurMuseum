@@ -11,9 +11,10 @@ interface DataType {
   DP_ARTIST: string;
   DP_NAME: string;
   DP_PLACE: string;
-  DP_INFO: string;
+  DP_SEQ: string;
   DP_END: string;
   DP_LNK: string;
+  DP_INFO: string;
 }
 
 export default function NowDetail() {
@@ -30,7 +31,7 @@ export default function NowDetail() {
     DP_INFO,
   }: any = router.query;
   const { addDatabase, deleteDatabase } = useDatabase();
-  const [bookmark, setBookmark] = useState<any>();
+  const [bookmark, setBookmark] = useState<boolean>();
 
   useEffect(() => {
     const getDatabase = async () => {

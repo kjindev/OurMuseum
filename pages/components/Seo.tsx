@@ -1,5 +1,6 @@
 import Head from "next/head";
-export default function Seo({ title }: any) {
+
+export default function Seo() {
   return (
     <Head>
       <title>서울시립미술관 전시 안내</title>

@@ -1,9 +1,10 @@
+import axios from "axios";
+
 export default function useData() {
   const getData = async (start: string, end: string) => {
     try {
-      const response = await fetch(`/api/data?start=${start}&end=${end}`);
-      const result = await response.json();
-      return result.ListExhibitionOfSeoulMOAInfo.row;
+      const { data } = await axios.get(`/api/data?start=${start}&end=${end}`);
+      return data.ListExhibitionOfSeoulMOAInfo.row;
     } catch (error) {
       console.log(error);
       return null;
@@ -12,9 +13,8 @@ export default function useData() {
 
   const getLocation = async () => {
     try {
-      const response = await fetch(`/api/location`);
-      const result = await response.json();
-      return result;
+      const { data } = await axios.get(`/api/location`);
+      return data;
     } catch (error) {
       console.log(error);
       return null;
@@ -23,9 +23,8 @@ export default function useData() {
 
   const getMap = async (id: string | string[] | undefined) => {
     try {
-      const response = await fetch(`/api/map?ID=${id}`);
-      const result = await response.json();
-      return result;
+      const { data } = await axios.get(`/api/map?ID=${id}`);
+      return data;
     } catch (error) {
       console.log(error);
       return null;

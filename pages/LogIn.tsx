@@ -14,9 +14,9 @@ import { auth } from "./config/firebase";
 import { useAuth } from "./components/AuthContext";
 
 export default function LogIn() {
-  const [newAccount, setNewAccount] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
+  const [newAccount, setNewAccount] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -55,7 +55,7 @@ export default function LogIn() {
     }
   };
 
-  const handleGoogleLogIn = async (event: React.MouseEvent<HTMLElement>) => {
+  const handleGoogleLogIn = async () => {
     let provider;
     try {
       provider = new GoogleAuthProvider();

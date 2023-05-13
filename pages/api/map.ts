@@ -101,7 +101,7 @@ const list = [
   },
 ];
 
-const handler = (req: any, res: NextApiResponse<any>) => {
+const handler = (req: NextApiRequest, res: NextApiResponse<any>) => {
   if (req.method === "GET") {
     const { ID } = req.query;
     const map = list.find((item) => item.ID === ID);

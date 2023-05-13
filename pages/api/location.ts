@@ -40,7 +40,7 @@ const list = [
   },
 ];
 
-const handler = (req: any, res: NextApiResponse<ListType[]>) => {
+const handler = (req: NextApiRequest, res: NextApiResponse<ListType[]>) => {
   if (req.method === "GET") {
     res.json(list);
   }

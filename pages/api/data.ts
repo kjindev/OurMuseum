@@ -5,9 +5,9 @@ interface Data {
   name: string;
 }
 
-const handler = async (req: any, res: NextApiResponse<Data>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (req.method === "GET") {
-    const getAPI = async (request: Request) => {
+    const getAPI = async (request: NextApiRequest) => {
       const { start, end } = req.query;
       const { API_KEY } = process.env;
       const API_URL = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/ListExhibitionOfSeoulMOAInfo/${start}/${end}/`;

@@ -5,7 +5,7 @@ interface ItemType {
   DP_NAME: string;
 }
 
-const handler = async (req: any, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const searchList = async () => {
       const { API_KEY } = process.env;
@@ -18,9 +18,9 @@ const handler = async (req: any, res: NextApiResponse) => {
           return res.status(404).json({ error: "Data not found" });
         }
 
-        const { name } = req.query;
+        const text = req.query.searchText;
         const items = data.filter((item: ItemType) =>
-          item.DP_NAME.includes(name)
+          item.DP_NAME.includes(text as string)
         );
 
         const perPage = 12;

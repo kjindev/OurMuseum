@@ -7,7 +7,7 @@ export default function LocationDetail() {
   const router = useRouter();
   const mapRef = useRef<HTMLInputElement>(null);
   const [list, setList] = useState<any>();
-  const id: any = router.query.id;
+  const id: string | string[] | undefined = router.query.id;
 
   const { getMap } = useData();
 

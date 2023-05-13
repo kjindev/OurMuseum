@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "./components/AuthContext";
-import { getAuth, updateProfile } from "firebase/auth";
+import { User, getAuth, updateProfile } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { BsDashCircle } from "react-icons/bs";
 import useDatabase from "./hooks/useDatabase";
@@ -8,26 +8,34 @@ import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "./config/firebase";
 import Image from "next/image";
 
+interface ListType {
+  img: string;
+  id: string;
+  name: string;
+  artist: string;
+}
+
 export default function UserPage() {
   const { user, dispatch } = useAuth();
   const { deleteDatabase } = useDatabase();
 
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [artList, setArtList] = useState<any>([]);
+  const [artList, setArtList] = useState<ListType[]>([]);
 
   const [nameEditing, setNameEditing] = useState(false);
-  const [userNameChanged, setUserNameChanged] = useState<any>();
+  const [userNameChanged, setUserNameChanged] = useState("");
 
   useEffect(() => {
-    let arts: any = [];
+    let arts: ListType[] = [];
     if (user?.email) {
       const artQuery = query(collection(db, "data", user.email, "arts"));
       onSnapshot(artQuery, (querySnapshot) => {
         arts = [];
         querySnapshot.forEach((doc) => {
-          arts.push(doc.data());
+          arts.push(doc.data() as ListType);
         });
+        console.log(arts);
         setArtList(arts);
       });
     }
@@ -42,7 +50,7 @@ export default function UserPage() {
     event.preventDefault();
     setNameEditing(false);
     const auth = getAuth();
-    updateProfile(auth.currentUser as any, {
+    updateProfile(auth.currentUser as User, {
       displayName: userNameChanged,
     }).then(() =>
       dispatch({
@@ -69,7 +77,7 @@ export default function UserPage() {
       };
       await uploadBytes(storageRef, image, metadata);
       await getDownloadURL(storageRef).then((url) => {
-        updateProfile(auth.currentUser as any, {
+        updateProfile(auth.currentUser as User, {
           photoURL: url,
         }).then(() =>
           dispatch({
