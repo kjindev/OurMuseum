@@ -1,35 +1,58 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { auth } from "../config/firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 const AuthContext = createContext<any>({});
 export const useAuth = () => useContext(AuthContext);
 
+const initialState = {
+  email: null,
+  name: null,
+  photo: null,
+};
+const reducer = (user: any, action: any) => {
+  if (action.type === "Update") {
+    return {
+      email: action.payload.email,
+      name: action.payload.name,
+      photo: action.payload.photo,
+    };
+  }
+};
+
 export function AuthContextProvider({ children }: any) {
-  const [user, setUser] = useState<any>(null);
+  const [user, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const authState = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser({
-          email: user.email,
-          name: user.displayName,
-          photo: user.photoURL,
+        dispatch({
+          type: "Update",
+          payload: {
+            email: user.email,
+            name: user.displayName,
+            photo: user.photoURL,
+          },
         });
-      } else {
-        setUser(null);
       }
     });
     return () => authState();
   }, []);
 
   const logout = async () => {
-    setUser(null);
+    dispatch({
+      type: "Update",
+      payload: {
+        email: null,
+        name: null,
+        photo: null,
+      },
+    });
     await signOut(auth);
   };
 
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, logout, dispatch }}>
       {children}
     </AuthContext.Provider>
   );

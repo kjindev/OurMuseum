@@ -106,7 +106,7 @@ export default function PrevDetail() {
       });
       modalRef.current?.classList.remove("hidden");
 
-      if (user) {
+      if (user.email) {
         const q = query(
           collection(db, "data", user.email, "arts"),
           where("name", "==", elementData?.name)
@@ -156,7 +156,7 @@ export default function PrevDetail() {
                 전시 기간 | {modalText?.START} ~ {modalText?.END}
               </div>
             </div>
-            {user && (
+            {user.email && (
               <div>
                 {bookmark ? (
                   <BsFillBookmarkCheckFill
@@ -211,7 +211,7 @@ export default function PrevDetail() {
           </div>
         </div>
       </div>
-      <div className="md:h-[10vh] mt-[7vh] xl:px-[20%] px-5 md:px-[10%]">
+      <div className="md:h-[10vh] mt-10 xl:px-[20%] px-5 md:px-[10%]">
         <div className="text-3xl lg:text-4xl">| 지난 전시</div>
         <div className="flex flex-col justify-start md:flex-row md:justify-between items-start md:items-center">
           <div className="text-sm lg:text-lg">전시 제목으로 검색해보세요</div>
@@ -270,7 +270,7 @@ export default function PrevDetail() {
         </div>
       )}
       {pageList && (
-        <div className="text-xs md:text-sm py-5 px-[10%] md:h-[8vh] xl:px-[20%] flex justify-center items-center">
+        <div className="text-xs md:text-sm py-2 px-[10%] md:h-[8vh] xl:px-[20%] flex justify-center items-center">
           {pageList.map((item, index) => (
             <div
               key={index}

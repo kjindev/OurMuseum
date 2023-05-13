@@ -17,7 +17,7 @@ export default function Location() {
   }, []);
 
   return (
-    <div className="pt-[7vh] w-[100%] h-[100vh] flex flex-col justify-center items-center">
+    <div className="pt-[7vh] pb-10 w-[100%] h-[100vh] flex flex-col justify-center items-center">
       <div className="text-2xl md:text-3xl">방문하기</div>
       <div className="mt-2 text-sm md:text-base">
         | 서울시립미술관을 직접 방문해보세요

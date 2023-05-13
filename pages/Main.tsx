@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
 import Intro from "./main/Intro";
 import Now from "./main/Now";
 import Prev from "./main/Prev";
@@ -13,6 +13,12 @@ interface Props {
 export default function Main() {
   const scrollRef = useRef<null[] | HTMLDivElement[]>([]);
   const [navName, setNavName] = useState("intro");
+
+  useLayoutEffect(() => {
+    if (window) {
+      window.scroll(0, Number(sessionStorage.y));
+    }
+  }, []);
 
   useEffect(() => {
     if (scrollRef) {
@@ -98,20 +104,24 @@ export default function Main() {
   };
 
   return (
-    <div>
+    <>
       <NavBar handleScrollView={handleScrollView} navName={navName} />
-      <div ref={(el) => (scrollRef.current[0] = el)} id="intro">
-        <Intro />
+      <div
+        onClick={() => sessionStorage.setItem("y", String(window.pageYOffset))}
+      >
+        <div ref={(el) => (scrollRef.current[0] = el)} id="intro">
+          <Intro />
+        </div>
+        <div ref={(el) => (scrollRef.current[1] = el)} id="now">
+          <Now />
+        </div>
+        <div ref={(el) => (scrollRef.current[2] = el)} id="prev">
+          <Prev />
+        </div>
+        <div ref={(el) => (scrollRef.current[3] = el)} id="location">
+          <Location />
+        </div>
       </div>
-      <div ref={(el) => (scrollRef.current[1] = el)} id="now">
-        <Now />
-      </div>
-      <div ref={(el) => (scrollRef.current[2] = el)} id="prev">
-        <Prev />
-      </div>
-      <div ref={(el) => (scrollRef.current[3] = el)} id="location">
-        <Location />
-      </div>
-    </div>
+    </>
   );
 }

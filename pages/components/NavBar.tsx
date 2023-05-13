@@ -36,7 +36,7 @@ export default function NavBar({ handleScrollView, navName }: Props) {
             onClick={hideMenu}
             size={30}
             color="white"
-            className="hover:cursor-pointer"
+            className="hover:cursor-pointer mr-3"
           />
         </div>
       )}
@@ -61,7 +61,7 @@ export default function NavBar({ handleScrollView, navName }: Props) {
           <span className={navName === "location" ? styleObserve : style}>
             방문하기
           </span>
-          {!user ? (
+          {!user.email ? (
             <Link href={"/LogIn"}>
               <span className="hover:cursor-pointer text-sm ml-5">로그인</span>
             </Link>
@@ -81,7 +81,11 @@ export default function NavBar({ handleScrollView, navName }: Props) {
             </>
           )}
         </div>
-        <BsList onClick={showMenu} size={27} className="hover:cursor-pointer" />
+        <BsList
+          onClick={showMenu}
+          size={25}
+          className="hover:cursor-pointer md:hidden"
+        />
       </div>
     </div>
   );

@@ -6,12 +6,10 @@ import { BsDashCircle } from "react-icons/bs";
 import useDatabase from "./hooks/useDatabase";
 import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "./config/firebase";
+import Image from "next/image";
 
 export default function UserPage() {
-  const { user } = useAuth();
-
-  const [username, setUsername] = useState("");
-  const [photo, setPhoto] = useState("");
+  const { user, dispatch } = useAuth();
   const { deleteDatabase } = useDatabase();
 
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -23,7 +21,6 @@ export default function UserPage() {
 
   useEffect(() => {
     let arts: any = [];
-
     if (user?.email) {
       const artQuery = query(collection(db, "data", user.email, "arts"));
       onSnapshot(artQuery, (querySnapshot) => {
@@ -33,8 +30,6 @@ export default function UserPage() {
         });
         setArtList(arts);
       });
-      setUsername(user?.name);
-      setPhoto(user?.photo);
     }
   }, [user]);
 
@@ -49,7 +44,16 @@ export default function UserPage() {
     const auth = getAuth();
     updateProfile(auth.currentUser, {
       displayName: userNameChanged,
-    }).then(() => window.location.reload());
+    }).then(() =>
+      dispatch({
+        type: "Update",
+        payload: {
+          email: user.email,
+          name: userNameChanged,
+          photo: user.photo,
+        },
+      })
+    );
   };
 
   const updatePhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,17 +68,24 @@ export default function UserPage() {
         contentType: "image/jpeg",
       };
       await uploadBytes(storageRef, image, metadata);
-      await getDownloadURL(storageRef)
-        .then((url) => {
-          updateProfile(auth.currentUser, {
-            photoURL: url,
-          });
-        })
-        .then(() => window.location.reload());
+      await getDownloadURL(storageRef).then((url) => {
+        updateProfile(auth.currentUser, {
+          photoURL: url,
+        }).then(() =>
+          dispatch({
+            type: "Update",
+            payload: {
+              email: user.email,
+              name: user.name,
+              photo: url,
+            },
+          })
+        );
+      });
     }
   };
 
-  if (!user) {
+  if (!user.email) {
     return (
       <div className="w-[100%] h-[100vh] flex justify-center items-center">
         <div className="text-center">
@@ -89,13 +100,13 @@ export default function UserPage() {
           <div className="flex flex-col md:flex-row justify-center items-center w-[100%] md:w-[80%] md:h-[70vh]">
             <div className="w-[100%] md:w-[25%] h-[100%] flex flex-col justify-center sm:justify-start items-center">
               <img
-                src={photo}
+                src={user?.photo}
                 loading="lazy"
                 className="w-[10vh] h-[10vh] sm:w-[12vh] sm:h-[12vh] md:w-[20vh] md:h-[20vh] object-cover rounded-[50%]"
               />
               {!nameEditing && (
                 <div className="sm:text-base md:text-xl mt-3 md:mt-5">
-                  {username}
+                  {user.name}
                 </div>
               )}
               {nameEditing && (
@@ -162,7 +173,7 @@ export default function UserPage() {
             <div className="md:pl-10 w-[100%] md:w-[80%] md:h-[100%]">
               <div className="p-0 md:pl-10 flex flex-wrap content-start w-[100%] md:h-[100%] md:overflow-x-hidden">
                 {artList.length === 0 ? (
-                  <div>Loading...</div>
+                  <div></div>
                 ) : (
                   artList.map((item: any) => (
                     <div
@@ -170,15 +181,18 @@ export default function UserPage() {
                       key={item.id}
                       className="flex m-2 p-2 w-[100%] h-[20vh] md:h-[30%] bg-white rounded-lg drop-shadow-lg"
                     >
-                      <img
+                      <Image
                         src={item.img}
+                        alt="img"
+                        width={300}
+                        height={300}
                         className="w-[30%] h-[100%] object-cover rounded-lg"
                       />
                       <div className="w-[70%] p-2 overflow-hidden">
                         <div className="text-sm md:text-base font-bold">
                           {item.name}
                         </div>
-                        <div className="text-sm">| {item.artist}</div>
+                        <div className="text-sm">{item.artist}</div>
                       </div>
                       <BsDashCircle
                         className="hover:cursor-pointer"

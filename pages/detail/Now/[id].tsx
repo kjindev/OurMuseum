@@ -34,7 +34,7 @@ export default function NowDetail() {
 
   useEffect(() => {
     const getDatabase = async () => {
-      if (user) {
+      if (user.email) {
         const q = query(
           collection(db, "data", user.email, "arts"),
           where("name", "==", DP_NAME)
@@ -49,74 +49,67 @@ export default function NowDetail() {
   }, [bookmark]);
 
   return (
-    <>
-      <div className="w-[100%]">
-        <div className="flex flex-col md:pt-0 md:flex-row h-[100vh] justify-center items-center drop-shadow-lg">
-          <img
-            src={DP_MAIN_IMG}
-            loading="lazy"
-            className="w-[100%] md:w-[42%] h-[40vh] md:h-[500px] object-cover"
-          />
-          <div className="w-[100%] md:w-[42%] h-[500px] p-3 bg-white overflow-scroll overflow-x-hidden">
-            <div className="flex items-center">
-              <div className="title-font font-bold text-xl md:text-2xl mr-2">
-                {DP_NAME}
-              </div>
+    <div className="w-[100%]">
+      <div className="flex flex-col md:flex-row h-[100vh] justify-center items-center drop-shadow-lg">
+        <img
+          src={DP_MAIN_IMG}
+          loading="lazy"
+          className="w-[100%] md:w-[42%] h-[40vh] md:h-[500px] object-cover"
+        />
+        <div className="w-[100%] md:w-[42%] h-[500px] p-3 bg-white overflow-scroll overflow-x-hidden">
+          <div className="flex items-center">
+            <div className="title-font font-bold text-xl md:text-2xl mr-2">
+              {DP_NAME}
             </div>
-            <div className="text-sm">
-              <div className="flex justify-between items-center">
+          </div>
+          <div className="text-sm">
+            <div className="flex justify-between items-center">
+              <div>
+                <div>| {DP_ARTIST}</div>
+                <div>| {DP_PLACE}</div>
+                <div>| {DP_END} 까지</div>
                 <div>
-                  <div>| {DP_ARTIST}</div>
-                  <div>| {DP_PLACE}</div>
-                  <div>| {DP_END} 까지</div>
+                  |{" "}
+                  <a
+                    href={DP_LNK}
+                    target="_blank"
+                    className="italic hover:text-yellow-600"
+                  >
+                    홈페이지 링크
+                  </a>
+                </div>
+              </div>
+              <div>
+                {user.email && (
                   <div>
-                    |{" "}
-                    <a
-                      href={DP_LNK}
-                      target="_blank"
-                      className="italic hover:text-yellow-600"
-                    >
-                      홈페이지 링크
-                    </a>
+                    {bookmark ? (
+                      <BsFillBookmarkCheckFill
+                        size={22}
+                        color="#ca8a04"
+                        className="hover:cursor-pointer"
+                        onClick={() => {
+                          deleteDatabase(DP_SEQ);
+                          setBookmark(false);
+                        }}
+                      />
+                    ) : (
+                      <BsBookmarkPlus
+                        size={22}
+                        className="hover:cursor-pointer"
+                        onClick={() => {
+                          addDatabase(DP_SEQ, DP_NAME, DP_ARTIST, DP_MAIN_IMG);
+                          setBookmark(true);
+                        }}
+                      />
+                    )}
                   </div>
-                </div>
-                <div>
-                  {user && (
-                    <div>
-                      {bookmark ? (
-                        <BsFillBookmarkCheckFill
-                          size={22}
-                          color="#ca8a04"
-                          className="hover:cursor-pointer"
-                          onClick={() => {
-                            deleteDatabase(DP_SEQ);
-                            setBookmark(false);
-                          }}
-                        />
-                      ) : (
-                        <BsBookmarkPlus
-                          size={22}
-                          className="hover:cursor-pointer"
-                          onClick={() => {
-                            addDatabase(
-                              DP_SEQ,
-                              DP_NAME,
-                              DP_ARTIST,
-                              DP_MAIN_IMG
-                            );
-                            setBookmark(true);
-                          }}
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
+                )}
               </div>
-              <div className="text-justify mt-3">{DP_INFO}</div>
             </div>
+            <div className="text-justify mt-3">{DP_INFO}</div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

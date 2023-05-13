@@ -66,7 +66,7 @@ export default function LogIn() {
     }
   };
 
-  if (user) {
+  if (user.email) {
     router.push("/");
     return (
       <div className="w-[100%] h-[100vh] flex justify-center items-center">
