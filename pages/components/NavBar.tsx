@@ -31,7 +31,7 @@ export default function NavBar({ handleScrollView, navName }: Props) {
   return (
     <div className="z-20 w-[100vw] fixed">
       {menuVisible && (
-        <div className="md:hidden z-50 absolute right-0 p-2 px-3">
+        <div className="md:hidden z-50 absolute right-0 p-2">
           <BsX
             onClick={hideMenu}
             size={30}

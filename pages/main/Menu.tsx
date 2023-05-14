@@ -16,13 +16,13 @@ export default function Menu({ handleScrollView, navName }: Props) {
         <div className="flex items-center border border-black border-b-white pb-3">
           <img
             src={
-              user
+              user.photo
                 ? user.photo
                 : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
             }
             className="w-[5vh] h-[5vh] mr-3 rounded-full"
           />
-          {user ? (
+          {user.email ? (
             <div className="text-white sm:text-sm">
               {user.name === null ? (
                 <div>{`${user.email} 님`}</div>
@@ -40,7 +40,7 @@ export default function Menu({ handleScrollView, navName }: Props) {
           )}
         </div>
         <div className="mt-5">
-          {user ? (
+          {user.email ? (
             <div className="flex maxxs:flex-col justify-center items-center">
               <Link href="/UserPage">
                 <div className="mx-5">마이페이지</div>

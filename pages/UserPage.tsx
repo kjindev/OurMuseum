@@ -108,13 +108,17 @@ export default function UserPage() {
           <div className="flex flex-col md:flex-row justify-center items-center w-[100%] md:w-[80%] md:h-[70vh]">
             <div className="w-[100%] md:w-[25%] h-[100%] flex flex-col justify-center sm:justify-start items-center">
               <img
-                src={user?.photo}
+                src={
+                  user.photo
+                    ? user.photo
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                }
                 loading="lazy"
                 className="w-[10vh] h-[10vh] sm:w-[12vh] sm:h-[12vh] md:w-[20vh] md:h-[20vh] object-cover rounded-[50%]"
               />
               {!nameEditing && (
                 <div className="sm:text-base md:text-xl mt-3 md:mt-5">
-                  {user.name}
+                  {user.name ? user.name : user.email}
                 </div>
               )}
               {nameEditing && (
