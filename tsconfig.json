@@ -19,7 +19,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/config/firebase.ts"
+    "pages/firebase/firebase.ts"
   ],
   "exclude": ["node_modules"]
 }

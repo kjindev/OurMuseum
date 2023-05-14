@@ -1,5 +1,5 @@
 import { setDoc, doc, deleteDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db } from "../firebase/firebase";
 import { useAuth } from "../components/AuthContext";
 
 export default function useDatabase() {

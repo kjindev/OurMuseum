@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { auth } from "../config/firebase";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 interface State {
   email: string | null;
@@ -37,7 +37,7 @@ const reducer = (user: State, action: Action): State => {
   return user;
 };
 
-export function AuthContextProvider({
+export default function AuthContextProvider({
   children,
 }: {
   children: React.ReactNode;

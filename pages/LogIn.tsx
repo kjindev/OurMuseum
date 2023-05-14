@@ -10,7 +10,7 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import { auth } from "./config/firebase";
+import { auth } from "./firebase/firebase";
 import { useAuth } from "./components/AuthContext";
 
 export default function LogIn() {

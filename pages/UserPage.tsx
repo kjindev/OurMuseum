@@ -5,7 +5,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { BsDashCircle } from "react-icons/bs";
 import useDatabase from "./hooks/useDatabase";
 import { collection, query, onSnapshot } from "firebase/firestore";
-import { db } from "./config/firebase";
+import { db } from "./firebase/firebase";
 import Image from "next/image";
 
 interface ListType {

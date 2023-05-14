@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useAuth } from "../components/AuthContext";
 import useDatabase from "../hooks/useDatabase";
 import { collection, where, getDocs, query } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db } from "../firebase/firebase";
 import { BsBookmarkPlus, BsFillBookmarkCheckFill } from "react-icons/bs";
 import { BiX } from "react-icons/bi";
 import axios from "axios";
