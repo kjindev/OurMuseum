@@ -20,28 +20,27 @@ interface Action {
 const AuthContext = createContext<any>({});
 export const useAuth = () => useContext(AuthContext);
 
-const initialState: State = {
-  email: null,
-  name: null,
-  photo: null,
-};
-
-const reducer = (user: State, action: Action): State => {
-  if (action.type === "Update") {
-    return {
-      email: action.payload.email,
-      name: action.payload.name,
-      photo: action.payload.photo,
-    };
-  }
-  return user;
-};
-
 export default function AuthContextProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const initialState: State = {
+    email: null,
+    name: null,
+    photo: null,
+  };
+
+  const reducer = (user: State, action: Action): State => {
+    if (action.type === "Update") {
+      return {
+        email: action.payload.email,
+        name: action.payload.name,
+        photo: action.payload.photo,
+      };
+    }
+    return user;
+  };
   const [user, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
