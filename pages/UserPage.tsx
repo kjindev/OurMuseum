@@ -3,9 +3,9 @@ import { useAuth } from "./components/AuthContext";
 import { User, getAuth, updateProfile } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { BsDashCircle } from "react-icons/bs";
-import useDatabase from "./hooks/useDatabase";
+import useDatabase from "../hooks/useDatabase";
 import { collection, query, onSnapshot } from "firebase/firestore";
-import { db } from "./firebase/firebase";
+import { db } from "../firebase/firebase";
 import Image from "next/image";
 
 interface ListType {

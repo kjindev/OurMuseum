@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useAuth } from "../../components/AuthContext";
 import { BsBookmarkPlus, BsFillBookmarkCheckFill } from "react-icons/bs";
-import useDatabase from "../../hooks/useDatabase";
+import useDatabase from "../../../hooks/useDatabase";
 import { useState, useEffect } from "react";
 import { collection, where, getDocs, query } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { db } from "../../../firebase/firebase";
 
 interface DataType {
   DP_MAIN_IMG: string;

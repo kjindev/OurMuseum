@@ -1,6 +1,6 @@
 import { setDoc, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import { useAuth } from "../components/AuthContext";
+import { useAuth } from "../pages/components/AuthContext";
 
 export default function useDatabase() {
   const { user } = useAuth();

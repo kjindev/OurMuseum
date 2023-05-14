@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
-import useData from "../../hooks/useData";
+import useData from "../../../hooks/useData";
 import Image from "next/image";
 
 export default function LocationDetail() {

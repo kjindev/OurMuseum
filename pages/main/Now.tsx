@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import useData from "../hooks/useData";
+import useData from "../../hooks/useData";
 
 interface DataType {
   DP_MAIN_IMG: string;
