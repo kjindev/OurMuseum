@@ -34,7 +34,7 @@ export default function LocationDetail() {
 
   return (
     <>
-      <div className="w-[100%] md:h-[100vh] flex flex-col justify-center items-center">
+      <div className="pt-[5vh] w-[100%] md:h-[100vh] flex flex-col justify-center items-center">
         <div className="text-lg sm:text-xl md:text-xl lg:text-3xl">
           {list?.NAME}
         </div>
@@ -48,7 +48,9 @@ export default function LocationDetail() {
               className="w-[100%] md:w-[42%] h-[40vh] md:h-[500px] object-cover"
             />
           ) : (
-            <div>Loading...</div>
+            <div className="w-[100%] md:w-[42%] h-[40vh] md:h-[500px]">
+              Loading...
+            </div>
           )}
           <div className="p-3 w-[100%] md:w-[42%] md:h-[500px] object-cover bg-white">
             <div>입장시간 | {list?.TIME}</div>

@@ -89,6 +89,7 @@ export default function Now() {
                 <Image
                   src={item.DP_MAIN_IMG}
                   alt="img"
+                  loading="lazy"
                   width={700}
                   height={700}
                   className="w-[80vw] h-[30vh] lg:w-[420px] lg:h-[60vh] xl:w-[510px] object-cover"

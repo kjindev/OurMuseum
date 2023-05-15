@@ -29,6 +29,7 @@ export default function Prev() {
                 <Image
                   src={item.DP_MAIN_IMG}
                   alt="img"
+                  loading="lazy"
                   width={500}
                   height={500}
                   className="w-[100%] h-[100%] object-cover"

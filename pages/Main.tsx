@@ -1,14 +1,11 @@
+import dynamic from "next/dynamic";
 import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
-import Intro from "./main/Intro";
-import Now from "./main/Now";
-import Prev from "./main/Prev";
-import Location from "./main/Location";
-import NavBar from "./components/NavBar";
 
-interface Props {
-  handleScrollView: (event: React.MouseEvent<HTMLElement>) => void;
-  navName: string;
-}
+const NavBar = dynamic(() => import("./components/NavBar"));
+const Intro = dynamic(() => import("./main/Intro"));
+const Now = dynamic(() => import("./main/Now"));
+const Prev = dynamic(() => import("./main/Prev"));
+const Location = dynamic(() => import("./main/Location"));
 
 export default function Main() {
   const scrollRef = useRef<null[] | HTMLDivElement[]>([]);

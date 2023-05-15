@@ -205,6 +205,7 @@ export default function PrevDetail() {
                 "https://sema.seoul.go.kr/common/imageView?FILE_PATH=%2Fex%2FEXI01%2F2022%2F&FILE_NM=20221209180425_97430745879b4238b66315ab02b448dc_10e521165c8f4a3e83cc9c7e7a5987f1"
               }
               alt={modalText?.NAME || ""}
+              loading="lazy"
               width={500}
               height={500}
               className="w-[100%] h-[50vh] my-3 object-cover z-[2]"
@@ -229,7 +230,7 @@ export default function PrevDetail() {
           </form>
         </div>
       </div>
-      {itemList && (
+      {itemList ? (
         <div
           ref={dataRef}
           className="md:mt-[3vh] xl:px-[20%] px-5 md:px-[10%] w-[100%] md:h-[70vh] flex flex-wrap content-start justify-start"
@@ -254,8 +255,9 @@ export default function PrevDetail() {
               <Image
                 src={item?.DP_MAIN_IMG}
                 alt={item?.DP_NAME}
-                width={500}
-                height={500}
+                loading="lazy"
+                width={250}
+                height={250}
                 className="w-[100%] h-[80%] object-cover"
               />
               <div className="m-2 mt-3">
@@ -269,6 +271,8 @@ export default function PrevDetail() {
             <div className="w-[100%] text-center">검색 결과가 없습니다</div>
           )}
         </div>
+      ) : (
+        <div>loading...</div>
       )}
       {pageList && (
         <div className="text-xs md:text-sm py-2 px-[10%] md:h-[8vh] xl:px-[20%] flex justify-center items-center">
