@@ -9,8 +9,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (req.method === "GET") {
     const getAPI = async (request: NextApiRequest) => {
       const { start, end } = req.query;
-      const { API_KEY } = process.env;
-      const API_URL = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/ListExhibitionOfSeoulMOAInfo/${start}/${end}/`;
+      const { NEXT_PUBLIC_API_KEY } = process.env;
+      const API_URL = `http://openapi.seoul.go.kr:8088/${NEXT_PUBLIC_API_KEY}/json/ListExhibitionOfSeoulMOAInfo/${start}/${end}/`;
       let response;
       try {
         response = await axios.get(API_URL);

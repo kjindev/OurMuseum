@@ -4,8 +4,8 @@ import axios from "axios";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const getList = async () => {
-      const { API_KEY } = process.env;
-      const API_URL = `http://openapi.seoul.go.kr:8088/${API_KEY}/json/ListExhibitionOfSeoulMOAInfo/10/100/`;
+      const { NEXT_PUBLIC_API_KEY } = process.env;
+      const API_URL = `http://openapi.seoul.go.kr:8088/${NEXT_PUBLIC_API_KEY}/json/ListExhibitionOfSeoulMOAInfo/10/100/`;
       let response;
       try {
         response = await axios.get(API_URL);
