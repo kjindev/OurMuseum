@@ -26,7 +26,7 @@ export default function Now() {
   const router = useRouter();
 
   useEffect(() => {
-    getData("3", "10")
+    getData("4", "10")
       .then((res) => setData(res))
       .then(() => setLoading(false));
   }, []);
